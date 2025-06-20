@@ -1,0 +1,92 @@
+{
+  "fishing": {
+    "title": "Fishing",
+    "subs": {
+      "reels": "Go to Reels",
+      "spinning-reels": "Spinning Reels",
+      "bait-casting-reels": "Bait Casting Reels",
+      "fishing-rods": "Go to Fishing Rods",
+      "spinning-rod": "Spinning Rod",
+      "combo-spinning-rod": "Combo Spinning Rod",
+      "bait-casting-rods": "Bait casting Rods",
+      "jigging-surf-rods": "Jigging / Surf Rods",
+      "fly-rod": "Fly Rod",
+      "pole-rods": "Pole Rod",
+      "telescopic-travel-rod": "Telescopic / Travel  Rod",
+      "combo": "Combo",
+      "lures": "Go to Lures",
+      "hard-lure": "Hard Lures",
+      "soft-lure": "Soft Baits",
+      "frogs": "Frogs",
+      "buy-best-fishing-jigs-spoon-spinner": "Jigs / Spoon / Spinner",
+      "fishing-line-india": "Go to Line",
+      "braided-pe-line-india": "Braided Line",
+      "mono-line": "Monofilament Line",
+      "leader": "Leader",
+      "hooks": "Go to Hooks",
+      "hooks-1": "Treble hooks",
+      "jigs": "Jig Heads",
+      "worm-hook": "Worm Hook",
+      "sabiki": "Sabiki",
+      "assist-hooks-line": "Assist Hooks / Line",
+      "live-bait-hooks": "Live Bait Hooks",
+      "accessories": "Go to Accessories",
+      "tackle-box": "Tackle Box",
+      "gaff": "Gaff",
+      "pliers-cutters": "Pliers / Cutters",
+      "lip-gripper": "Lip Gripper | Hook Remover",
+      "landing-nets": "Landing Nets",
+      "attractant": "Attractant",
+      "oils-grease": "Oils / Grease",
+      "knives": "Knives",
+      "fishing-spares": "Spares",
+      "other-accessories": "Other Accesories",
+      "floaters": "Floats",
+      "tackle-box-bags": "Bag's",
+      "diving-board": "Diving Board",
+      "terminal-tackle": "Go to Terminal Tackles",
+      "snaps": "Swivels / Snaps",
+      "rigging-accessories": "Rigging Accessories",
+      "split-ring": "Split Ring",
+      "others": "Other Terminal Tackle's",
+      "weight-sinker": "Weight/Sinker",
+      "carp-fishing": "Go to Carp Fishing",
+      "carp-hooks": "Carp Hooks",
+      "feedeers": "Feeds",
+      "carp-foam": "Floats",
+      "nets-traps-1": "Nets | Traps"
+    }
+  },
+  "archery": {
+    "title": "Archery",
+    "subs": {
+      "recurve-bows": "Recurve Bows",
+      "crossbow": "Crossbows",
+      "arrows": "Arrows",
+      "other-archery": "Other Archery",
+      "archery-spares": "Archery Spares"
+    }
+  },
+  "camping": {
+    "title": "Camping & Outdoor",
+    "subs": {
+      "barbecue": "Grills &  Accessories",
+      "knives": "Knives",
+      "lights": "Lights",
+      "life-jacket": "Life Jacket"
+    }
+  },
+  "apparel-merchandise": {
+    "title": "Apparel / Merchandise",
+    "subs": {
+      "apparel": "Tshirt & Jersey",
+      "caps": "Caps/Headwear",
+      "stickers": "Stickers",
+      "merchandise": "Merchandise",
+      "other-merchandise": "Others",
+      "gloves": "Gloves",
+      "arm-sleeves": "Arm Sleeves",
+      "sunglasses": "Sunglasses"
+    }
+  }
+}
