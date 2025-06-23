@@ -8,9 +8,9 @@ st.set_page_config(page_title="Catalog Dashboard", layout="wide")
 
 # 1. Load scraped JSON
 # Load hierarchical product data
-@st.cache_data
+#@st.cache_data
 def load_data():
-    with open("cabral_full_catalog.html_scrape.json", "r") as f:
+    with open("cabral_full_catalog_with_ratings.json", "r", encoding="utf-8") as f:
         raw = json.load(f)
 
     rows = []
@@ -30,9 +30,9 @@ def load_data():
                     "description": prod.get("description"),
                     "url": prod.get("url"),
                     "images": prod.get("images"),
-                    "review_count": len(prod.get("reviews", [])),
+                    "review_count": prod.get("count_reviews"),
                     #"reviews": prod.get("reviews"),
-                    "avg_rating": round(np.mean([int(rev.get("rating")) for rev in prod.get("reviews")]),2),
+                    "avg_rating": prod.get("average_rating"),
 
                 }
                 rows.append(prod_data)
@@ -45,18 +45,26 @@ def extract_price(p):
         return None
     
 # --- Title and Callout ---
-st.title("Cabral Outdoors Catalog") 
+#st.title("Cabral Outdoors Catalog") 
 
 df = load_data()
-import streamlit as st
+
+df["review_count"] = df["review_count"].fillna(0)
+df["review_count"] = df["review_count"].astype(int)
+
+df["avg_rating"] = df["avg_rating"].fillna(0.0)
+df["avg_rating"] = df["avg_rating"].astype(float)
+
+
+#st.dataframe(df)
 
 col1, col2 = st.columns([3,1])
 
-col1.title("") 
+col1.title("Cabral Outdoors Catalog") 
 no_review_count = int((df['review_count'] == 0).sum())
-col2.write(f"**~~ {no_review_count} products have no reviews**", unsafe_allow_html=True)
+col2.subheader(" ")
+col2.markdown(f"##### **:red[~~{no_review_count}] products have no reviews**", unsafe_allow_html=True)
 
-st.header("")
 #st.dataframe(df)
 
 # 3. Sidebar filters
@@ -100,7 +108,7 @@ with chart_col:
     top5 = filtered.sort_values("review_count", ascending=False).head(5)
     st.dataframe(top5[["title", "review_count", "avg_rating"]].rename(columns={
         "title": "Product", "review_count": "Reviews", "avg_rating": "Rating"
-    }))
+    }),hide_index=True)
 with hist_col:
     st.subheader("Price Distribution")
     dfa = filtered["price"].value_counts().reset_index().rename(columns={"index":"price", "price": "value_counts"})

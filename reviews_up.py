@@ -61,7 +61,7 @@ def main():
                 product.update(ratings)
 
                 # be polite
-                time.sleep(1)
+                time.sleep(0.1)
 
     # 3. Save updated catalog
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
