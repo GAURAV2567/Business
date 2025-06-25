@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import json
+import plotly.express as px
+import re
 
 # 2. Page config
 st.set_page_config(page_title="Catalog Dashboard", layout="wide")
@@ -55,8 +57,23 @@ df["review_count"] = df["review_count"].astype(int)
 df["avg_rating"] = df["avg_rating"].fillna(0.0)
 df["avg_rating"] = df["avg_rating"].astype(float)
 
+# Load Sub_collection_categories.json
+with open("Sub_collection_categories.json", "r", encoding="utf-8") as f:
+    subcat_json = json.load(f)
 
-#st.dataframe(df)
+# Build mapping: sub_title -> parent title (i.e., sub_collection)
+sub_title_to_parent = {}
+for category in subcat_json.values():
+    parent_title = category["title"]
+    for sub_key, sub_title in category["subs"].items():
+        sub_title_to_parent[sub_title] = parent_title
+
+# Apply mapping to df['sub_title']
+df["sub_collection"] = df["sub_title"].map(sub_title_to_parent).fillna("Unknown")
+
+df = df.drop(['parent_handle','sub_handle'], axis=1)
+
+st.dataframe(df)
 
 col1, col2 = st.columns([3,1])
 
@@ -97,9 +114,11 @@ col4.metric("Highest Rated", highest_rated["title"], f"{highest_rated['avg_ratin
 
 st.markdown("---")
 
-st.subheader("Products per Collection")
-by_coll = filtered["collection"].value_counts().rename_axis("collection").reset_index(name="count")
-st.bar_chart(by_coll, x="collection", y="count",horizontal=True)
+st.subheader("Number of Products Per Collection")
+bar_data = df["collection"].value_counts(ascending=True).reset_index()
+bar_data.columns = ["Collection", "Count"]
+st.plotly_chart(px.bar(bar_data, x="Count", y="Collection", orientation='h', height=300),)
+
 
 # 5. Charts
 chart_col, hist_col = st.columns(2)
@@ -110,8 +129,11 @@ with chart_col:
         "title": "Product", "review_count": "Reviews", "avg_rating": "Rating"
     }),hide_index=True)
 with hist_col:
+    # Histogram: Price distribution
     st.subheader("Price Distribution")
-    dfa = filtered["price"].value_counts().reset_index().rename(columns={"index":"price", "price": "value_counts"})
-    #st.dataframe(dfa)
-    st.bar_chart(dfa,x="price",y="value_counts")
+    df = df[df["price"]<=11000]
+    hist = px.histogram(df, x="price", nbins=50, template="plotly_white",height=300)
+    hist.update_traces(marker=dict(line=dict(width=1, color='white')))
+    hist.update_layout(xaxis_title=None, yaxis_title=None)
+    st.plotly_chart(hist)
 
