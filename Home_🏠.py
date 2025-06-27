@@ -6,11 +6,11 @@ import plotly.express as px
 import re
 
 # 2. Page config
-st.set_page_config(page_title="Catalog Dashboard", layout="wide")
+st.set_page_config(page_title="Catalog Dashboard", layout="wide",page_icon="🏠")
 
 # 1. Load scraped JSON
 # Load hierarchical product data
-#@st.cache_data
+@st.cache_data
 def load_data():
     with open("cabral_full_catalog_with_ratings.json", "r", encoding="utf-8") as f:
         raw = json.load(f)
@@ -73,13 +73,20 @@ df["sub_collection"] = df["sub_title"].map(sub_title_to_parent).fillna("Unknown"
 
 df = df.drop(['parent_handle','sub_handle'], axis=1)
 
-st.dataframe(df)
+#st.dataframe(df)
+st.write('<style>div.block-container{padding-top:2rem;}</style>', unsafe_allow_html=True)
+
+st.markdown(
+        f"<center><p style=' font-weight: bold;"
+        f"font-size: 50px;'>Cabral Outdoors</p></center>",
+        unsafe_allow_html=True,
+)
 
 col1, col2 = st.columns([3,1])
 
-col1.title("Cabral Outdoors Catalog") 
+#col1.title("Cabral Outdoors Catalog")
 no_review_count = int((df['review_count'] == 0).sum())
-col2.subheader(" ")
+#col2.subheader(" ")
 col2.markdown(f"##### **:red[~~{no_review_count}] products have no reviews**", unsafe_allow_html=True)
 
 #st.dataframe(df)
@@ -90,9 +97,9 @@ collections = st.sidebar.multiselect("Collection", options=sorted(df["collection
 price_min, price_max = st.sidebar.slider(
     "Price range",
     int(df["price"].min()), int(df["price"].max()),
-    (int(df["price"].min()), int(df["price"].quantile(0.75)))
+    (int(df["price"].min()), int(df["price"].max()))
 )
-review_min = st.sidebar.slider("Min reviews", 0, int(df["review_count"].max()), (0, 10))
+review_min = st.sidebar.slider("Min reviews", 0, int(df["review_count"].max()), (0, 81))
 
 # Filter data
 filtered = df[
