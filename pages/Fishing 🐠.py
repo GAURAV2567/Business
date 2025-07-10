@@ -53,9 +53,10 @@ col2.metric("% NO REVIEWS", f"{100 - review_coverage:.0f}%")
 col3.metric("AVERAGE RATING", f"{avg_rating:.2f} ⭐")
 col4.metric("MOST REVIEWED", most_reviewed['title'] if most_reviewed is not None else "N/A")
 
+st.markdown("---")
+
 # --- Bar Chart Columns ---
 col1, col2 = st.columns(2)
-
 with col1:
     st.subheader("Number of Reviews per Sub-Collection")
     sub_reviews = (
@@ -64,11 +65,11 @@ with col1:
         .sort_values(ascending=True)
         .reset_index()
     )
-    fig_bar = px.bar(sub_reviews, x='review_count', y='sub_collection', orientation='h', title='Reviews by Sub-Collection')
+    fig_bar = px.bar(sub_reviews, x='review_count', y='sub_collection', orientation='h')
     st.plotly_chart(fig_bar, use_container_width=True)
 
 with col2:
-    st.subheader("Sub-Collection: Products vs Reviews")
+    st.subheader("No. of Products vs Reviews")
     sub_metrics = (
         filtered_df.groupby('sub_collection')
         .agg(product_count=('title', 'count'), total_reviews=('review_count', 'sum'))
@@ -76,7 +77,7 @@ with col2:
     )
     sub_metrics["perct"] = round(((sub_metrics["total_reviews"] / sub_metrics["product_count"])*100 )- 100,2) 
     sub_metrics["perct"] = sub_metrics["perct"].apply(lambda x: "Reviewed "+ str(x) + "% more" if x >0 else "Reviewed "+ str(x*-1) + "% less")
-    fig_comp = px.scatter(sub_metrics, x='product_count', y='total_reviews', title='No. of Products vs Reviews',
+    fig_comp = px.scatter(sub_metrics, x='product_count', y='total_reviews', #title='No. of Products vs Reviews',
                           size="total_reviews", color="sub_collection",size_max=30,hover_name='perct',
                           )
     fig_comp.update_layout(
@@ -118,9 +119,9 @@ with col1:
 with col2:
     st.subheader("Worst Performing Products")
     worst_df = chart_data.copy()
-    worst_df['score'] = (worst_df['review_count'] / (worst_df['avg_rating'] + 1e-6)) + worst_df['review_count'] - worst_df['avg_rating']
     worst_df = worst_df[worst_df["review_count"]>0].reset_index(drop=True)
     worst_df = worst_df[worst_df["avg_rating"]<=3].reset_index(drop=True)
+    worst_df['score'] = (worst_df['review_count'] / (worst_df['avg_rating'] + 1e-6)) + worst_df['review_count'] - (worst_df['avg_rating']*2)
     worst = worst_df.sort_values(by=['score'], ascending=False).head(8)[['title', 'review_count', 'avg_rating']].reset_index(drop=True)
     st.table(worst.rename(columns={
         'title': 'Product Title',
