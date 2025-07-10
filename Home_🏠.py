@@ -6,7 +6,7 @@ import plotly.express as px
 import re
 
 # 2. Page config
-st.set_page_config(page_title="Catalog Dashboard", layout="wide",page_icon="🏠")
+st.set_page_config(page_title="Catalog Dashboard", layout="wide",page_icon="🏠",initial_sidebar_state="expanded")
 
 # 1. Load scraped JSON
 # Load hierarchical product data
