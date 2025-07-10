@@ -5,7 +5,7 @@ from wordcloud import WordCloud
 import altair as alt
 import plotly.express as px
 
-st.set_page_config(page_title="Fishing Collection Dashboard", layout="wide")
+st.set_page_config(page_title="Fishing Collection Dashboard", layout="wide",initial_sidebar_state="expanded")
 
 # --- Load Data ---
 @st.cache_data
